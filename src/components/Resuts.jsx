@@ -10,7 +10,7 @@ export const Results = () => {
   const location = useLocation();
 
   useEffect(() => {
-    getResults('/search/q=JavaScript Mastery&num=40')
+    getResults("/search/q=JavaScript Mastery&num=40");
   }, []);
 
   if (isLoading) return <Loading />;
@@ -18,14 +18,37 @@ export const Results = () => {
 
   switch (location.pathname) {
     case "/search":
-      return "SEARCH";
+      return (
+        <div className="flex flex-wrap justify-between space-y-6 sm:px-56">
+          {results?.results?.map(({ link, title }, index) => (
+            <div key={index} className="md:w-2/5 w-full">
+              <a href={link} target="_blank" rel="noreferrer">
+                <p className="text-sm">
+                  {link.length > 30 ? link.substring(0, 30) : link}
+                </p>
+                <p className="text-lg hover:underline dark:text-blue-300 text-blue-700">
+                  {title}
+                </p>
+              </a>
+            </div>
+          ))}
+        </div>
+      );
 
     case "/images":
       return (
-        <div className="flex flex-wrap justify-between space-y-6 sm:px-56">
-          {results?.resultes?.map(({link, title}) =>(
-            <div key={index}></div>
-          ))}
+        <div
+          className="flex flex-wrap justify-center items-center
+      "
+        >
+          {results?.image_results?.map(
+            ({ image, link: { href, title } }, index) => (
+              <a className="sm:p-3 p-5" href={href} key={index} target="_blank" rel="noreferr">
+                <img src={image?.src} alt={title} loading="lazy" />
+                <p className="w-36 break-words"></p>
+              </a>
+            )
+          )}
         </div>
       );
 
